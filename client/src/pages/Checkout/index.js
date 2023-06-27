@@ -8,6 +8,7 @@ import { postOrder } from "../../service/api";
 import { Formik } from "formik"
 import * as yup from "yup"
 import { Box, Button, Step, StepLabel, Stepper } from "@mui/material";
+import { LoadingButton } from '@mui/lab'
 
 const stripePromise = loadStripe("pk_test_51HEwcAAMXhWGrkC4UHBhmQkSdAUSlqpR2VZWH2JSvZVq7VKHrghfTmfqdr4cSTMrsD4RmYgOfzsQg0YlkDBi9qgk00M06GEphI")
 
@@ -70,6 +71,7 @@ const checkoutSchema = [
 
 const Checkout = () => {
     const [activeStep, setActiveStep] = useState(0);
+    const [isLoading, setLoading] = useState(false);
     const cart = useSelector(state => state.cart.cart);
     const isFirstStep = activeStep === 0;
     const isSecondStep = activeStep === 1;
@@ -77,7 +79,6 @@ const Checkout = () => {
     const handleFormSubmit = async (value, actions) => {
         setActiveStep(activeStep + 1);
         if (isFirstStep && value.shippingAddress.isSameAddress) {
-            // console.log(value);
             actions.setFieldValue("shippingAddress", {
                 ...value.billingAddress, isSameAddress: true,
             })
@@ -89,6 +90,7 @@ const Checkout = () => {
     }
 
     const makePayment = async (value) => {
+        setLoading(true);
         const stripe = await stripePromise;
         const reqBody = {
             userName: [value.firstName, value.lastName].join(" "),
@@ -103,6 +105,7 @@ const Checkout = () => {
         await stripe.redirectToCheckout({
             sessionId: session.id,
         })
+        setLoading(false);
     }
 
     return (
@@ -129,7 +132,7 @@ const Checkout = () => {
                             handleBlur,
                             handleChange,
                             handleSubmit,
-                            setFieldValue
+                            setFieldValue,
                         }) => (
                             <form onSubmit={handleSubmit}>
                                 {
@@ -179,11 +182,13 @@ const Checkout = () => {
                                             </Button>
                                             : null
                                     }
-                                    <Button
+
+                                    <LoadingButton
                                         fullWidth
                                         type="submit"
                                         color="primary"
                                         variant="contained"
+                                        loading={isLoading}
                                         sx={{
                                             backgroundColor: shades.primary[400],
                                             boxShadow: "none",
@@ -193,7 +198,7 @@ const Checkout = () => {
                                         }}
                                     >
                                         {isFirstStep ? "Next" : "Place Order"}
-                                    </Button>
+                                    </LoadingButton>
                                 </Box>
                             </form>
                         )

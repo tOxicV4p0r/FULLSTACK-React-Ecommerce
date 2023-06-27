@@ -23,7 +23,7 @@ const ShoppingList = () => {
 
     useEffect(() => {
         getItems();
-    }, []) // elint-disable-line react-hooks/exhaustive-deps
+    }, []);// eslint-disable-line react-hooks/exhaustive-deps
 
     return (
         <Box width="80%" margin="80px auto">
@@ -65,7 +65,7 @@ const ShoppingList = () => {
                     ))
                 }
                 {
-                    value != 'all' && items
+                    value !== 'all' && items
                         .filter(item => item.attributes.category === value)
                         .map((e) => (
                             <Item item={e} key={`${e.name}-${e.id}`} />
