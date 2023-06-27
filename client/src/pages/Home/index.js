@@ -5,11 +5,9 @@ import Subscribe from "../../components/Subscribe";
 const Home = () => {
     return (
         <div className="home">
-            {/* 
-            <MainCarousel /> 
+            <MainCarousel />
             <ShoppingList />
             <Subscribe />
-            */}
         </div>
     )
 };
