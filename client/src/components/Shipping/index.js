@@ -1,5 +1,5 @@
-import { Box, Checkbox, FormControlLabel, Typography } from "@mui/material";
 import AddressForm from "../AddressForm";
+import { Box, Checkbox, FormControlLabel, Typography } from "@mui/material";
 
 const Shipping = ({
     values,

@@ -1,12 +1,13 @@
 import { useSelector } from "react-redux";
-import { Formik } from "formik"
-import * as yup from "yup"
-import { Box, Button, Step, StepLabel, Stepper } from "@mui/material";
 import { shades } from "../../theme";
 import { useState } from "react";
 import Shipping from "../../components/Shipping";
 import Payment from "../../components/Payment";
 import { loadStripe } from "@stripe/stripe-js"
+import { postOrder } from "../../service/api";
+import { Formik } from "formik"
+import * as yup from "yup"
+import { Box, Button, Step, StepLabel, Stepper } from "@mui/material";
 
 const stripePromise = loadStripe("pk_test_51HEwcAAMXhWGrkC4UHBhmQkSdAUSlqpR2VZWH2JSvZVq7VKHrghfTmfqdr4cSTMrsD4RmYgOfzsQg0YlkDBi9qgk00M06GEphI")
 
@@ -62,7 +63,7 @@ const checkoutSchema = [
         }),
     }),
     yup.object().shape({
-        email: yup.string().required("required"),
+        email: yup.string().email('Must be a valid email').max(50).min(2, "Must be more than 10 characters").required("required"),
         phoneNumber: yup.string().required("required"),
     }),
 ];
@@ -97,14 +98,7 @@ const Checkout = () => {
             }),
         }
 
-        const res = await fetch("http://localhost:2999/api/orders", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(reqBody),
-        });
-
-        const session = await res.json();
-        console.log(session);
+        const session = await postOrder(reqBody);
 
         await stripe.redirectToCheckout({
             sessionId: session.id,

@@ -1,8 +1,9 @@
-import { Box, Tab, Tabs, Typography, useMediaQuery } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setItems } from "../../state";
+import { fetchItems } from "../../service/api";
 import Item from "../Item";
+import { Box, Tab, Tabs, Typography, useMediaQuery } from "@mui/material";
 
 const ShoppingList = () => {
     const dispatch = useDispatch();
@@ -15,10 +16,9 @@ const ShoppingList = () => {
     }
 
     const getItems = async () => {
-        const items = await fetch('http://localhost:2999/api/items?populate=image', { method: "GET" })
-        const itemsJson = await items.json();
-        dispatch(setItems(itemsJson.data));
-        // console.log("🚀 ~ file: index.js:9 ~ ShoppingList ~ items:", itemsJson.data)
+        const dataJson = await fetchItems();
+        dispatch(setItems(dataJson.data));
+        // console.log("🚀 ~ file: index.js:9 ~ ShoppingList ~ items:", dataJson.data)
     };
 
     useEffect(() => {

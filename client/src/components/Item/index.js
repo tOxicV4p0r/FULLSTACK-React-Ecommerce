@@ -1,10 +1,11 @@
-import { Box, Button, IconButton, Typography ,useTheme} from "@mui/material";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { addToCart } from "../../state";
+import { baseURL } from "../../service/api";
 import { shades } from "../../theme";
 import { AddSharp, RemoveSharp } from "@mui/icons-material";
-import { addToCart } from "../../state";
+import { Box, Button, IconButton, Typography, useTheme } from "@mui/material";
 
 /* 
 const item = {
@@ -56,7 +57,7 @@ const Item = ({ item, width = 300 }) => {
                     alt={item.name}
                     width="300px"
                     height="400px"
-                    src={`http://localhost:2999${url}`}
+                    src={`${baseURL}${url}`}
                     onClick={() => navigate(`/item/${item.id}`)}
                     style={{ cursor: 'pointer' }}
                 />

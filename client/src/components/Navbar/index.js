@@ -1,9 +1,9 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom';
+import { setIsCartOpen } from '../../state';
 import { shades } from '../../theme';
 import { Badge, Box, IconButton } from '@mui/material';
 import { MenuOutlined, PersonOutline, SearchOutlined, ShoppingBagOutlined } from '@mui/icons-material'
-import { setIsCartOpen } from '../../state';
 
 const Navbar = () => {
     const navigate = useNavigate();
@@ -33,7 +33,7 @@ const Navbar = () => {
                 <Box
                     onClick={() => navigate("/")}
                     sx={{ "&:hover": { cursor: "pointer" } }}
-                    color={shades.secondary[500]}
+                    color={shades.primary[500]}
                 >
                     ECOMMER
                 </Box>

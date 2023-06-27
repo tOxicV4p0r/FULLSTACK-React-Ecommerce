@@ -1,10 +1,11 @@
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Box, Button, Divider, IconButton, Typography } from "@mui/material"
-import { AddSharp, CloseOutlined, PlusOneSharp, RemoveCircle, RemoveDoneOutlined, RemoveSharp } from "@mui/icons-material"
-import { shades } from "../../theme";
-import styled from "@emotion/styled";
 import { decreaseCount, increaseCount, removeFromCart, setIsCartOpen } from "../../state";
+import { shades } from "../../theme";
+import { baseURL } from "../../service/api";
+import { Box, Button, Divider, IconButton, Typography } from "@mui/material"
+import { AddSharp, CloseOutlined, RemoveSharp } from "@mui/icons-material"
+import styled from "@emotion/styled";
 
 const FlexBox = styled(Box)({
     display: "flex",
@@ -64,7 +65,7 @@ const CartMenu = () => {
                                                 alt={item?.name}
                                                 width="123px"
                                                 height="164px"
-                                                src={`http://localhost:2999${item?.attributes?.image?.data?.attributes?.formats?.medium?.url}`}
+                                                src={`${baseURL}${item?.attributes?.image?.data?.attributes?.formats?.medium?.url}`}
                                             />
                                         </Box>
                                         <Box flex="1 1 60%">
@@ -112,6 +113,9 @@ const CartMenu = () => {
                                 minWidth: "100%",
                                 padding: "20px 40px",
                                 m: "20px 0",
+                                "&:hover": {
+                                    color: "black",
+                                },
                             }}
                             onClick={() => { navigate("/checkout"); dispatch(setIsCartOpen()); }}
                         >

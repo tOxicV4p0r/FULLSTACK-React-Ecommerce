@@ -1,14 +1,14 @@
-import { Box, Button, IconButton, Tab, Tabs, Typography, useTheme } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
-import { shades } from "../../theme";
+import { useParams } from "react-router-dom";
 import { addToCart } from "../../state";
-import { AddSharp, FavoriteBorderOutlined, RemoveSharp } from "@mui/icons-material";
 import Item from "../../components/Item";
+import { baseURL, fetchItem, fetchItems } from "../../service/api";
+import { AddSharp, FavoriteBorderOutlined, RemoveSharp } from "@mui/icons-material";
+import { Box, Button, IconButton, Tab, Tabs, Typography } from "@mui/material";
+import { shades } from "../../theme";
 
 const ItemDetails = () => {
-    const navigate = useNavigate();
     const dispatch = useDispatch();
     const { itemId } = useParams();
     const [value, setValue] = useState("description");
@@ -21,20 +21,20 @@ const ItemDetails = () => {
     }
 
     const getItem = async () => {
-        const data = await fetch(`http://localhost:2999/api/items/${itemId}?populate=image`, { method: "GET" });
-        const dataJson = await data.json();
+        const dataJson = await fetchItem(itemId);
         setItem(dataJson.data);
     };
 
     const getItems = async () => {
-        const data = await fetch('http://localhost:2999/api/items?populate=image', { method: "GET" })
-        setItems((await data.json()).data);
+
+        const dataJson = await fetchItems();
+        setItems(dataJson.data);
     };
 
     useEffect(() => {
         getItem();
         getItems();
-    }, []); // eslint-disable-line react-hooks/exhaustive-deps
+    }, [itemId]); // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
         <Box
@@ -52,7 +52,7 @@ const ItemDetails = () => {
                         alt={item?.attributes?.name}
                         width="100%"
                         height="100%"
-                        src={`http://localhost:2999${item?.attributes?.image?.data?.attributes?.formats?.medium?.url}`}
+                        src={`${baseURL}${item?.attributes?.image?.data?.attributes?.formats?.medium?.url}`}
                         style={{ objectFit: "contain" }}
                     />
                 </Box>
