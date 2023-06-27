@@ -8,7 +8,7 @@ import Shipping from "../../components/Shipping";
 import Payment from "../../components/Payment";
 import { loadStripe } from "@stripe/stripe-js"
 
-const stripePromise = loadStripe("pk_live_51HEwcAAMXhWGrkC4kWWtctqnb3seFcFhAZaTvGXQtt7Cx22r3sbLx8Y1RsJM5DOvIjXWmj8wa0sJBpjUpsBa3zVc00QoLewo4R")
+const stripePromise = loadStripe("pk_test_51HEwcAAMXhWGrkC4UHBhmQkSdAUSlqpR2VZWH2JSvZVq7VKHrghfTmfqdr4cSTMrsD4RmYgOfzsQg0YlkDBi9qgk00M06GEphI")
 
 const initialValues = {
     billingAddress: {
@@ -92,7 +92,7 @@ const Checkout = () => {
         const reqBody = {
             userName: [value.firstName, value.lastName].join(" "),
             email: value.email,
-            product: cart.map((id, count) => {
+            products: cart.map(({ id, count }) => {
                 return { id, count }
             }),
         }
@@ -104,6 +104,8 @@ const Checkout = () => {
         });
 
         const session = await res.json();
+        console.log(session);
+
         await stripe.redirectToCheckout({
             sessionId: session.id,
         })
@@ -195,9 +197,8 @@ const Checkout = () => {
                                             borderRadius: 0,
                                             padding: "15px 40px"
                                         }}
-                                        onClick={() => setActiveStep(activeStep + 1)}
                                     >
-                                        Next
+                                        {isFirstStep ? "Next" : "Place Order"}
                                     </Button>
                                 </Box>
                             </form>
