@@ -167,7 +167,7 @@ const Checkout = () => {
                                     gap="20px"
                                 >
                                     {
-                                        !isSecondStep ?
+                                        isSecondStep ?
                                             <Button
                                                 fullWidth
                                                 color="primary"
