@@ -14,7 +14,12 @@ export const cartSlice = createSlice({
             state.items = action.payload;
         },
         addToCart: (state, action) => {
-            state.cart = [...state.cart, action.payload.item];
+            // check duplicate
+            const index = state.cart.findIndex(e => e.id === action.payload.item.id);
+            if (index > -1) {
+                state.cart[index].count += action.payload.item.count;
+            } else
+                state.cart = [...state.cart, action.payload.item];
         },
         removeFromCart: (state, action) => {
             state.cart = state.cart.filter((item) => item.id !== action.payload.id);
