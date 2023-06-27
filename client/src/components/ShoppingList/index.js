@@ -10,21 +10,15 @@ const ShoppingList = () => {
     const items = useSelector(state => state.cart.items);
     const isNonMobile = useMediaQuery("(min-width:600px)");
 
-    const topRatedItems = items.filter(item => item.attributes.category === "topRated")
-    const newArrivalsItems = items.filter(item => item.attributes.category === "newArrivals")
-    const bestSellersItems = items.filter(item => item.attributes.category === "bestSellers")
-
     const handleChange = (e, newValue) => {
         setValue(newValue);
     }
-
-
 
     const getItems = async () => {
         const items = await fetch('http://localhost:2999/api/items?populate=image', { method: "GET" })
         const itemsJson = await items.json();
         dispatch(setItems(itemsJson.data));
-        console.log("🚀 ~ file: index.js:9 ~ ShoppingList ~ items:", itemsJson.data)
+        // console.log("🚀 ~ file: index.js:9 ~ ShoppingList ~ items:", itemsJson.data)
     };
 
     useEffect(() => {
@@ -69,6 +63,13 @@ const ShoppingList = () => {
                     value === 'all' && items.map((e) => (
                         <Item item={e} key={`${e.name}-${e.id}`} />
                     ))
+                }
+                {
+                    value != 'all' && items
+                        .filter(item => item.attributes.category === value)
+                        .map((e) => (
+                            <Item item={e} key={`${e.name}-${e.id}`} />
+                        ))
                 }
             </Box>
         </Box>

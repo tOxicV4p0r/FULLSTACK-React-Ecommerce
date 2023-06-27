@@ -8,6 +8,7 @@ import Navbar from "./components/Navbar";
 import CartMenu from "./components/CartMenu";
 import { Typography } from "@mui/material";
 import Item from "./components/Item";
+import Footer from "./components/Footer";
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -24,8 +25,7 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        <Navbar />
-        <CartMenu />
+        {/* <Navbar />*/}
         <ScrollToTop />
         <Routes>
           <Route path="/" element={<Home />} />
@@ -33,6 +33,8 @@ function App() {
           <Route path="checkout" element={<Checkout />} />
           <Route path="checkout/success" element={<Confirmation />} />
         </Routes>
+        {/* <CartMenu /> */}
+        <Footer />
       </BrowserRouter>
     </div>
   );

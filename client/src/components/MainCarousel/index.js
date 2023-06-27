@@ -14,8 +14,6 @@ const importAll = (r) => {
 const heroTextureImports = importAll(
     require.context("../../assets", false, /\.(png|jpe?g|svg)$/)
 );
-console.log(heroTextureImports)
-console.log(Object.values(heroTextureImports).map(e => e))
 
 const MainCarousel = () => {
     const isNonMobile = useMediaQuery("(min-width:600px)");

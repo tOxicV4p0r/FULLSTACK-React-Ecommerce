@@ -72,7 +72,7 @@ const Item = ({ item, width = 300 }) => {
                     <Box display="flex" justifyContent="space-between">
                         <Box
                             display="flex"
-                            alignContent="center"
+                            alignItems="center"
                             backgroundColor={shades.neutral[100]}
                             borderRadius="3px"
                         >
