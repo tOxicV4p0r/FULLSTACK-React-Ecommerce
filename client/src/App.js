@@ -5,6 +5,8 @@ import ItemDetails from "./pages/ItemDetails";
 import Checkout from "./pages/Checkout";
 import Confirmation from "./pages/Comfirmation";
 import Navbar from "./components/Navbar";
+import CartMenu from "./components/CartMenu";
+import { Typography } from "@mui/material";
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -21,14 +23,15 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
-          <Navbar />
-          <ScrollToTop />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="item/:itemId" element={<ItemDetails />} />
-            <Route path="checkout" element={<Checkout />} />
-            <Route path="checkout/success" element={<Confirmation />} />
-          </Routes>
+        <Navbar />
+        <CartMenu />
+        <ScrollToTop />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="item/:itemId" element={<ItemDetails />} />
+          <Route path="checkout" element={<Checkout />} />
+          <Route path="checkout/success" element={<Confirmation />} />
+        </Routes>
       </BrowserRouter>
     </div>
   );
