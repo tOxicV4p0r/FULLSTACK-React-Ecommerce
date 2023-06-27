@@ -10,8 +10,6 @@ const Shipping = ({
     setFieldValue
 }) => {
 
-    console.log(values)
-
     return (
         <Box m="30px auto">
             {/* Billing Form */}

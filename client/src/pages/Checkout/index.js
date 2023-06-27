@@ -5,6 +5,10 @@ import { Box, Button, Step, StepLabel, Stepper } from "@mui/material";
 import { shades } from "../../theme";
 import { useState } from "react";
 import Shipping from "../../components/Shipping";
+import Payment from "../../components/Payment";
+import { loadStripe } from "@stripe/stripe-js"
+
+const stripePromise = loadStripe("pk_live_51HEwcAAMXhWGrkC4kWWtctqnb3seFcFhAZaTvGXQtt7Cx22r3sbLx8Y1RsJM5DOvIjXWmj8wa0sJBpjUpsBa3zVc00QoLewo4R")
 
 const initialValues = {
     billingAddress: {
@@ -71,6 +75,38 @@ const Checkout = () => {
 
     const handleFormSubmit = async (value, actions) => {
         setActiveStep(activeStep + 1);
+        if (isFirstStep && value.shippingAddress.isSameAddress) {
+            // console.log(value);
+            actions.setFieldValue("shippingAddress", {
+                ...value.billingAddress, isSameAddress: true,
+            })
+        } else {
+            makePayment(value);
+        }
+
+        actions.setTouched({})
+    }
+
+    const makePayment = async (value) => {
+        const stripe = await stripePromise;
+        const reqBody = {
+            userName: [value.firstName, value.lastName].join(" "),
+            email: value.email,
+            product: cart.map((id, count) => {
+                return { id, count }
+            }),
+        }
+
+        const res = await fetch("http://localhost:2999/api/orders", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(reqBody),
+        });
+
+        const session = await res.json();
+        await stripe.redirectToCheckout({
+            sessionId: session.id,
+        })
     }
 
     return (
@@ -110,8 +146,60 @@ const Checkout = () => {
                                             handleChange={handleChange}
                                             setFieldValue={setFieldValue}
                                         />
-                                        : null
+                                        :
+                                        isSecondStep ?
+                                            <Payment
+                                                values={values}
+                                                errors={errors}
+                                                touched={touched}
+                                                handleBlur={handleBlur}
+                                                handleChange={handleChange}
+                                                setFieldValue={setFieldValue}
+                                            />
+                                            : null
                                 }
+
+                                <Box
+                                    display="flex"
+                                    justifyContent="space-between"
+                                    gap="20px"
+                                >
+                                    {
+                                        !isSecondStep ?
+                                            <Button
+                                                fullWidth
+                                                color="primary"
+                                                variant="contained"
+                                                sx={{
+                                                    backgroundColor: shades.primary[200],
+                                                    boxShadow: "none",
+                                                    color: "white",
+                                                    borderRadius: 0,
+                                                    padding: "15px 40px"
+                                                }}
+                                                onClick={() => setActiveStep(activeStep - 1)}
+                                            >
+                                                Back
+                                            </Button>
+                                            : null
+                                    }
+                                    <Button
+                                        fullWidth
+                                        type="submit"
+                                        color="primary"
+                                        variant="contained"
+                                        sx={{
+                                            backgroundColor: shades.primary[400],
+                                            boxShadow: "none",
+                                            color: "white",
+                                            borderRadius: 0,
+                                            padding: "15px 40px"
+                                        }}
+                                        onClick={() => setActiveStep(activeStep + 1)}
+                                    >
+                                        Next
+                                    </Button>
+                                </Box>
                             </form>
                         )
                     }
