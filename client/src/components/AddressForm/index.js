@@ -13,9 +13,9 @@ const AddressForm = ({
 
     const formattedName = (field) => `${type}.${field}`;
 
-    const formattedError = (field) => Boolean(getIn(touched, formattedName(field)) && getIn(errors, formattedError(field)));
+    const formattedError = (field) => Boolean(getIn(touched, formattedName(field)) && getIn(errors, formattedName(field)));
 
-    const formattedHelper = (field) => getIn(touched, formattedName(field)) && getIn(errors, formattedError(field))
+    const formattedHelper = (field) => getIn(touched, formattedName(field)) && getIn(errors, formattedName(field))
 
     return (
         <Box
