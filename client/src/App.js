@@ -7,6 +7,7 @@ import Confirmation from "./pages/Comfirmation";
 import Navbar from "./components/Navbar";
 import CartMenu from "./components/CartMenu";
 import { Typography } from "@mui/material";
+import Item from "./components/Item";
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -32,6 +33,7 @@ function App() {
           <Route path="checkout" element={<Checkout />} />
           <Route path="checkout/success" element={<Confirmation />} />
         </Routes>
+        <Item />
       </BrowserRouter>
     </div>
   );
