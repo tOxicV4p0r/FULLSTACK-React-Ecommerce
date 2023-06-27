@@ -7,6 +7,7 @@ import { shades } from "../../theme";
 import { AddSharp, RemoveSharp } from "@mui/icons-material";
 import { addToCart } from "../../state";
 
+/* 
 const item = {
     attributes: {
         price: 20,
@@ -25,11 +26,9 @@ const item = {
         }
     },
 };
+ */
 
-const Item = ({
-    // item,
-    width = 300
-}) => {
+const Item = ({ item, width = 300 }) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [count, setCount] = useState(1);
