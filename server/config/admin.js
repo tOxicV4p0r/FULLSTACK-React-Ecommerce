@@ -10,4 +10,10 @@ module.exports = ({ env }) => ({
       salt: env('TRANSFER_TOKEN_SALT'),
     },
   },
+  rateLimit: {
+    enabled: true,
+    interval: 60000,
+    timeWait: 10000,
+    max: 5,
+  },
 });

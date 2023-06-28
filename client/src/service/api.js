@@ -1,4 +1,5 @@
-export const baseURL = "http://localhost:2999";
+export const baseURL = "http://localhost:3001";
+// export const baseURL = "";
 
 export const postOrder = async (data) => {
     const res = await fetch(`${baseURL}/api/orders`, {

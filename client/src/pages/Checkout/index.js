@@ -7,7 +7,7 @@ import { loadStripe } from "@stripe/stripe-js"
 import { postOrder } from "../../service/api";
 import { Formik } from "formik"
 import * as yup from "yup"
-import { Box, Button, Step, StepLabel, Stepper } from "@mui/material";
+import { Box, Button, Step, StepLabel, Stepper, Typography } from "@mui/material";
 import { LoadingButton } from '@mui/lab'
 
 const stripePromise = loadStripe("pk_test_51HEwcAAMXhWGrkC4UHBhmQkSdAUSlqpR2VZWH2JSvZVq7VKHrghfTmfqdr4cSTMrsD4RmYgOfzsQg0YlkDBi9qgk00M06GEphI")
@@ -199,6 +199,9 @@ const Checkout = () => {
                                     >
                                         {isFirstStep ? "Next" : "Place Order"}
                                     </LoadingButton>
+                                </Box>
+                                <Box mt="20px">
+                                    <Typography color="green">*For testing, use card number <strong>4242 4242 4242 4242</strong> and do not use real card details.</Typography>
                                 </Box>
                             </form>
                         )

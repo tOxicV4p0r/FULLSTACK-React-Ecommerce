@@ -10,6 +10,7 @@ module.exports = createCoreController('api::order.order', ({ strapi }) => ({
     async create(ctx) {
         const { products, userName, email } = ctx.request.body;
 
+        const origin = ctx.request.headers.origin;
         try {
             // retrieve item information            
             const lineItems = await Promise.all(
@@ -34,8 +35,8 @@ module.exports = createCoreController('api::order.order', ({ strapi }) => ({
                 payment_method_types: ["card"],
                 customer_email: email,
                 mode: "payment",
-                success_url: "http://localhost:3000/checkout/success",
-                cancel_url: "http://localhost:3000",
+                success_url: `${origin}/checkout/success`,
+                cancel_url: origin,
                 line_items: lineItems,
             });
 
