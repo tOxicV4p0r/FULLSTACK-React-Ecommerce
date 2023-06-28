@@ -3,11 +3,28 @@ import { useDispatch, useSelector } from "react-redux";
 import { setItems } from "../../state";
 import { fetchItems } from "../../service/api";
 import Item from "../Item";
-import { Box, Tab, Tabs, Typography, useMediaQuery } from "@mui/material";
+import { Box, Skeleton, Stack, Tab, Tabs, Typography, useMediaQuery } from "@mui/material";
+
+const skel = (round) => {
+    let el = []
+    for (let i = 0; i < round; i++) {
+        el.push(
+            <Stack spacing={1}>
+                <Skeleton variant="rectangular" width="100%" height="400px" />
+                <Skeleton variant="rectangular" width="30%" height="14px" />
+                <Skeleton variant="rectangular" width="70%" height="20px" />
+                <Skeleton variant="rectangular" width="10%" height="15px" />
+            </Stack>
+        )
+    }
+
+    return el;
+};
 
 const ShoppingList = () => {
     const dispatch = useDispatch();
     const [value, setValue] = useState("all");
+    const [isLoading, setIsLoading] = useState(false);
     const items = useSelector(state => state.cart.items);
     const isNonMobile = useMediaQuery("(min-width:600px)");
 
@@ -16,8 +33,11 @@ const ShoppingList = () => {
     }
 
     const getItems = async () => {
+        setIsLoading(true);
+        await new Promise(resolve => setTimeout(resolve, 2000));
         const dataJson = await fetchItems();
         dispatch(setItems(dataJson.data));
+        setIsLoading(false);
         // console.log("🚀 ~ file: index.js:9 ~ ShoppingList ~ items:", dataJson.data)
     };
 
@@ -70,6 +90,11 @@ const ShoppingList = () => {
                         .map((e) => (
                             <Item item={e} key={`${e.name}-${e.id}`} />
                         ))
+                }
+                {
+                    isLoading ?
+                        skel(5)
+                        : null
                 }
             </Box>
         </Box>

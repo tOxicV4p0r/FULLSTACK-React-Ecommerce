@@ -1,5 +1,5 @@
-export const baseURL = "http://localhost:3001";
-// export const baseURL = "";
+// export const baseURL = "http://localhost:3001";
+export const baseURL = "https://serverstrapi-nhvl2sce2q-as.a.run.app";
 
 export const postOrder = async (data) => {
     const res = await fetch(`${baseURL}/api/orders`, {
