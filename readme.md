@@ -11,4 +11,4 @@ The project serves as an opportunity to deepen understanding of React, Starpi CM
  - Strapi CMS
  - Stripe payment
 
-![enter image description here](https://github.com/tOxicV4p0r/FULLSTACK-React-Ecommerce/blob/main/static/ecommerce-site.png?raw=true)
+![enter image description here](https://github.com/tOxicV4p0r/FULLSTACK-React-Ecommerce/blob/main/static/ecommergif.gif?raw=true)
